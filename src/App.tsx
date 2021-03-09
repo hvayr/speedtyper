@@ -14,6 +14,7 @@ import TopScores, { IScore } from './components/TopScores';
 import ToggleableScores from './components/ToggleableScores';
 import firebaseDb from './firebase';
 import SelectGameModeButton from './components/SelectGameModeButton';
+import useScores from './components/useScores';
 
 type items = {
   [key: string]: number | string;
@@ -26,7 +27,6 @@ const App: React.FC = () => {
 
   const [gameMode, setGameMode] = useState(0);
   const [word, setWord] = useState('');
-  const [scores, setScores] = useState({});
   const [value, setValue] = useState('');
   const [correctCount, setCorrectCount] = useState(0);
   const [time, setTime] = useState(GAME_TIME);
@@ -34,6 +34,8 @@ const App: React.FC = () => {
 
   const focusRef = useRef<HTMLInputElement>(null);
   const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const { scores, setScores } = useScores();
 
   const options = [
     {

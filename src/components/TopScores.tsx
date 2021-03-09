@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import firebaseDb from '../firebase';
-import { gameModeOptions } from '../App';
 
 export interface IScore {
   score: string;
@@ -28,16 +27,6 @@ const TopScores = ({
   gameMode,
   index,
 }: ITopScoresProps) => {
-  useEffect(() => {
-    firebaseDb.child('scores').on('value', (snapshot: any) => {
-      if (snapshot.val() != null) {
-        setScores({
-          ...snapshot.val(),
-        });
-      }
-    });
-  }, []);
-
   function filteredScores() {
     let scoreArray: Array<IScore> = Object.values(scores).map(function (
       obj: IScore,

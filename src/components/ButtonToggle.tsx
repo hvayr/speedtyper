@@ -5,7 +5,10 @@ interface IButtonToggleProps {
   toggleScoreboard: any;
 }
 
-const ButtonToggle = ({ children, toggleScoreboard }: IButtonToggleProps) => {
+const ButtonToggle: React.FC<IButtonToggleProps> = ({
+  children,
+  toggleScoreboard,
+}: IButtonToggleProps) => {
   return <button onClick={() => toggleScoreboard()}>{children}</button>;
 };
 
