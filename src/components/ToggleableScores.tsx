@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import React, { createElement, useState } from 'react';
-import TopScores, { IScore, ITopScoresProps } from './TopScores';
+import TopScores, {
+  IScore,
+  ITopScoresProps,
+} from './TopScores';
 import ButtonToggle from './ButtonToggle';
 import ScoreboardToggle from './ScoreboardToggle';
 import '../App.css';
@@ -33,7 +36,10 @@ const ToggleableScores = ({
   setScores,
   gameMode,
 }: IToggleableScoresProps) => {
-  const [currentScoreboard, setCurrentScoreboard] = useState(0);
+  const [
+    currentScoreboard,
+    setCurrentScoreboard,
+  ] = useState(0);
   return (
     <div className={`${className}`}>
       <div className="scoreboardHeader">
@@ -44,13 +50,17 @@ const ToggleableScores = ({
           return (
             <ButtonToggle
               key={index}
-              toggleScoreboard={() => setCurrentScoreboard(index)}
+              toggleScoreboard={() =>
+                setCurrentScoreboard(index)
+              }
             >
               <h3>{f.name}</h3>
             </ButtonToggle>
           );
         })}
-        <ScoreboardToggle currentScoreboard={currentScoreboard}>
+        <ScoreboardToggle
+          currentScoreboard={currentScoreboard}
+        >
           {options.map((c, index) => {
             return (
               <div key={index}>

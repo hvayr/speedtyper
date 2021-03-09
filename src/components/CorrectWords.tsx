@@ -4,7 +4,9 @@ interface IProps {
   count: number;
 }
 
-const CorrectWords: React.FC<IProps> = ({ count }: IProps) => {
+const CorrectWords: React.FC<IProps> = ({
+  count,
+}: IProps) => {
   return (
     <div className="correctWords">
       <h2>Words: {count}</h2>

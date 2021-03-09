@@ -9,7 +9,11 @@ const ButtonToggle: React.FC<IButtonToggleProps> = ({
   children,
   toggleScoreboard,
 }: IButtonToggleProps) => {
-  return <button onClick={() => toggleScoreboard()}>{children}</button>;
+  return (
+    <button onClick={() => toggleScoreboard()}>
+      {children}
+    </button>
+  );
 };
 
 export default ButtonToggle;

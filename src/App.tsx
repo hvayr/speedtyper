@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import './App.css';
 import Header from './components/Header';
 import WordBar from './components/WordBar';
@@ -20,15 +25,17 @@ type items = {
   [key: string]: number | string;
 }[];
 
-export const gameModeOptions = [{ name: 'Mode1' }, { name: 'Mode2' }];
+export const gameModeOptions = [
+  { name: 'Mode1', time: 15 },
+  { name: 'Mode2', time: 30 },
+];
 
 const App: React.FC = () => {
-  const GAME_TIME = 5;
-
-  const [gameMode, setGameMode] = useState(0);
+  const [gameMode, setGameMode] = useState(1);
   const [word, setWord] = useState('');
   const [value, setValue] = useState('');
   const [correctCount, setCorrectCount] = useState(0);
+  const GAME_TIME = gameModeOptions[gameMode - 1].time;
   const [time, setTime] = useState(GAME_TIME);
   const [gameOn, setGameOn] = useState(false);
 
@@ -53,16 +60,21 @@ const App: React.FC = () => {
   ];
 
   useEffect(() => {
-    console.log('gamemode ', gameMode);
-    console.log('options ', gameModeOptions[0]);
+    setTime(gameModeOptions[gameMode - 1].time);
   }, [gameMode]);
+
+  useEffect(() => {
+    console.log('on ', gameOn);
+  }, [gameOn]);
 
   useEffect(() => {
     setWord(setNextWord());
   }, []);
 
   const randomWord = () => {
-    return wordList[Math.floor(Math.random() * wordList.length)];
+    return wordList[
+      Math.floor(Math.random() * wordList.length)
+    ];
   };
 
   const onGameEnd = () => {
@@ -70,6 +82,8 @@ const App: React.FC = () => {
       score: correctCount,
       mode: gameMode,
     });
+    setGameOn(false);
+    setValue('');
   };
 
   useEffect(() => {
@@ -80,7 +94,10 @@ const App: React.FC = () => {
     }
 
     if (gameOn && time > 0) {
-      intervalId = setInterval(() => setTime((time) => time - 1), 1000);
+      intervalId = setInterval(
+        () => setTime((time) => time - 1),
+        1000,
+      );
     }
     focusRef?.current?.focus();
     return () => clearInterval(intervalId);
@@ -122,8 +139,9 @@ const App: React.FC = () => {
   };
 
   const addScore = (obj: any) => {
+    console.log('adding');
     firebaseDb
-      .child('scores')
+      .child('scores2')
       .push(obj)
       .catch((err: any) => {
         console.log(err);
@@ -131,9 +149,9 @@ const App: React.FC = () => {
   };
 
   function filteredScores() {
-    const scoreArray: Array<IScore> = Object.values(scores).map(function (
-      obj: any,
-    ) {
+    const scoreArray: Array<IScore> = Object.values(
+      scores,
+    ).map(function (obj: any) {
       return obj;
     });
 
@@ -141,14 +159,13 @@ const App: React.FC = () => {
       return parseInt(b.score) - parseInt(a.score);
     });
 
-    console.log('scoreArray ', scoreArray);
-
     return scoreArray.slice(0, 10);
   }
 
   return (
     <div className={`${theme}-theme`}>
       <Header />
+      <h1>Game Mode {gameMode}</h1>
       <WordBar nextWord={word} />
       <CorrectWords count={correctCount} />
       <TypingBox
@@ -157,16 +174,21 @@ const App: React.FC = () => {
         handleEnter={handleEnter}
         time={time}
         ref={focusRef}
+        gameOn={gameOn}
       />
       <TimeBar time={time} />
       {gameMode != 0 && (
-        <Start gameOn={gameOn} handleStartOrRestart={handleStartOrRestart} />
+        <Start
+          gameOn={gameOn}
+          handleStartOrRestart={handleStartOrRestart}
+        />
       )}
       {
         <SelectGameModeButton
           gameMode={gameMode}
           setGameMode={setGameMode}
           options={gameModeOptions}
+          gameOn={gameOn}
         />
       }
       <ToggleableScores

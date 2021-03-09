@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import React, { useEffect } from 'react';
-import firebaseDb from '../firebase';
 
 export interface IScore {
   score: string;
@@ -28,9 +27,9 @@ const TopScores = ({
   index,
 }: ITopScoresProps) => {
   function filteredScores() {
-    let scoreArray: Array<IScore> = Object.values(scores).map(function (
-      obj: IScore,
-    ) {
+    let scoreArray: Array<IScore> = Object.values(
+      scores,
+    ).map(function (obj: IScore) {
       return obj;
     });
 
@@ -47,19 +46,23 @@ const TopScores = ({
       })
       .slice(0, 5);
 
-    console.log('sa ', sA);
-
     return sA;
   }
 
   return (
     <div className="scoreboard">
       <h1>{name}</h1>
-      {filteredScores()?.map((s: IScore | undefined, i: number) => {
-        if (s) {
-          return <h1 key={i}>{`${i + 1}. ${s.score} words`}</h1>;
-        }
-      })}
+      {filteredScores()?.map(
+        (s: IScore | undefined, i: number) => {
+          if (s) {
+            return (
+              <h1 key={i}>{`${i + 1}. ${
+                s.score
+              } words`}</h1>
+            );
+          }
+        },
+      )}
     </div>
   );
 };

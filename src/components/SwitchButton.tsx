@@ -6,7 +6,11 @@ interface IProps {
   className: string;
 }
 
-const SwitchButton = ({ name, onClick, className }: IProps) => {
+const SwitchButton = ({
+  name,
+  onClick,
+  className,
+}: IProps) => {
   return (
     <button onClick={onClick} className={`${className}`}>
       {name}

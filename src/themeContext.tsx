@@ -11,7 +11,9 @@ interface IProps {
 
 const ThemeContext = React.createContext({} as IValue);
 
-const ThemeContextProvider: React.FC<IProps> = ({ children }: IProps) => {
+const ThemeContextProvider: React.FC<IProps> = ({
+  children,
+}: IProps) => {
   const [theme, setTheme] = useState('Dark');
 
   useEffect(() => {
@@ -23,7 +25,9 @@ const ThemeContextProvider: React.FC<IProps> = ({ children }: IProps) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme: theme, toggleTheme: toggleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme: theme, toggleTheme: toggleTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );
